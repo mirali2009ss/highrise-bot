@@ -1,8 +1,7 @@
 import os
 import threading
-import asyncio
 from http.server import SimpleHTTPRequestHandler, HTTPServer
-from highrise import BaseBot, Bot
+from highrise import BaseBot
 
 # ۱. سرور وب فیک برای روشن ماندن در رندر
 def run_fake_server():
@@ -13,24 +12,12 @@ def run_fake_server():
 
 threading.Thread(target=run_fake_server, daemon=True).start()
 
-# ۲. بخش ربات و خوش‌آمداگویی
+# ۲. کلاس اصلی ربات و خوش‌آمداگویی
 class MyBot(BaseBot):
     async def on_start(self, session_metadata) -> None:
-        print("ربات با موفقیت وارد اتاق شد!")
+        print("ربات با موفقیت آنلاین شد و به اتاق وصل گردید!")
 
     async def on_user_join(self, user, position) -> None:
         welcome_message = f"سلام {user.username} عزیز! به اتاق ما خیلی خوش آمدی 🌟"
         await self.highrise.chat(welcome_message)
-
-# ۳. اجرای استاندارد با تصحیح کامل متغیرها
-async def main():
-    # بر اساس تایید شما، جای این دو دقیقاً برعکس شد:
-    token = "a41a7ec0025b83462a07db640c5abb3d6ac2dfbbef501530db87517f17895a09"
-    room_id = "6569747fff370b7aa794b600"
-    
-    bot_instance = MyBot()
-    await Bot().run(bot_instance, room_id, token)
-
-if __name__ == "__main__":
-    asyncio.run(main())
-    
+        
