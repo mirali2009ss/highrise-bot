@@ -3,7 +3,6 @@ import threading
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from highrise import BaseBot
 from highrise.__main__ import main
-from highrise.models import SessionMetadata, User
 
 # ۱. سرور وب فیک برای روشن ماندن در رندر
 def run_fake_server():
@@ -14,14 +13,14 @@ def run_fake_server():
 
 threading.Thread(target=run_fake_server, daemon=True).start()
 
-# ۲. بخش ربات و خوش‌آمدگویی
+# ۲. بخش ربات و خوش‌آمدگویی بدون مدل‌های حساس
 class MyBot(BaseBot):
-    async def on_start(self, session_metadata: SessionMetadata) -> None:
+    async def on_start(self, session_metadata) -> None:
         print("ربات آنلاین شد و آماده خوش‌آمدگویی است!")
 
     # این تابع به محض ورود هر نفر خودکار اجرا می‌شود
-    async def on_user_join(self, user: User, position) -> None:
-        # متن پیام خوش‌آمدگویی (می‌توانی این متن را به دلخواه خودت تغییر بدهی)
+    async def on_user_join(self, user, position) -> None:
+        # متن پیام خوش‌آمدگویی به همراه تگ کردن اسم کاربر
         welcome_message = f"سلام {user.username} عزیز! به اتاق ما خیلی خوش آمدی 🌟"
         
         # فرستادن پیام در چت اتاق
