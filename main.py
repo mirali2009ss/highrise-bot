@@ -13,7 +13,7 @@ def run_fake_server():
 
 threading.Thread(target=run_fake_server, daemon=True).start()
 
-# ۲. بخش ربات و خوش‌آمداگویی
+# ۲. بخش ربات و خوش‌آمدگویی
 class MyBot(BaseBot):
     async def on_start(self, session_metadata) -> None:
         print("ربات با موفقیت وارد اتاق شد!")
@@ -22,12 +22,14 @@ class MyBot(BaseBot):
         welcome_message = f"سلام {user.username} عزیز! به اتاق ما خیلی خوش آمدی 🌟"
         await self.highrise.chat(welcome_message)
 
-# ۳. اجرای مستقیم ربات بدون نیاز به دستورات رندر
-if __name__ == "__main__":
-    room_id = "شناسه_اتاق_شما"  # <--- آی‌دی اتاقت را اینجا بنویس
-    token = "توکن_شما"      # <--- توکن رباتت را اینجا بنویس
+# ۳. اجرای استاندارد و مستقیم ربات
+async def main():
+    room_id = "6569747fff370b7aa794b600"
+    token = "a41a7ec0025b83462a07db640c5abb3d6ac2dfbbef501530db87517f17895a09"
     
-    from highrise.__main__ import ArunBot
-    # راه اندازی مستقیم ربات
-    asyncio.run(ArunBot().run(MyBot(), room_id, token))
+    bot = MyBot()
+    await bot.highrise.run(bot, room_id, token)
+
+if __name__ == "__main__":
+    asyncio.run(main())
     
