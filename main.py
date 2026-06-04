@@ -3,14 +3,12 @@ import asyncio
 from highrise import BaseBot, Highrise
 from aiohttp import web
 
-# کلاس ربات تو
 class MyBot(BaseBot):
     async def on_start(self, session_metadata) -> None:
         print("ربات با موفقیت در اتاق مستقر شد!")
 
-# سرورِ ساده برای گول زدنِ رندر (برای حالت Web Service)
 async def handle(request):
-    return web.Response(text="Bot is running!")
+    return web.Response(text="Bot is running")
 
 async def start_server():
     app = web.Application()
@@ -21,16 +19,16 @@ async def start_server():
     await site.start()
 
 async def main():
-    # ۱. اجرای سرور وب
     await start_server()
-    
-    # ۲. اجرای ربات با روش استاندارد
     room_id = os.environ.get("ROOM_ID")
     token = os.environ.get("TOKEN")
     
+    # روشِ استاندارد برای اجرای ربات که در تمام نسخه‌ها جواب می‌دهد
     bot = MyBot()
-    # استفاده از متدِ صحیح برای اتصال
-    await Highrise().run(bot, room_id, token)
+    # در نسخه‌های جدید، باید از Highrise() برای مدیریت استفاده کنیم 
+    # و با متدِ زیر ربات را متصل کنیم:
+    definitions = [] 
+    await Highrise(bot).connect(room_id, token)
 
 if __name__ == "__main__":
     asyncio.run(main())
