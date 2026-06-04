@@ -5,7 +5,7 @@ from highrise import BaseBot, Bot
 
 class MyBot(BaseBot):
     async def on_start(self, session_metadata) -> None:
-        print("ربات با موفقیت وصل شد!")
+        print("ربات با موفقیت آنلاین شد!")
 
 def run_fake_server():
     port = int(os.environ.get("PORT", 10000))
@@ -18,5 +18,7 @@ if __name__ == "__main__":
     room_id = os.environ.get("ROOM_ID")
     token = os.environ.get("TOKEN")
     
+    # اجرای استاندارد
     bot = MyBot()
     Bot().run(bot, room_id, token)
+    
