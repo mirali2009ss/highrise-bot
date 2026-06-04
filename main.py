@@ -8,21 +8,11 @@ class MyBot(BaseBot):
     async def on_start(self, session_metadata) -> None:
         print("ربات با موفقیت در اتاق مستقر شد!")
 
-async def main():
+if __name__ == "__main__":
     room_id = os.environ.get("ROOM_ID")
     token = os.environ.get("TOKEN")
     
-    if not room_id or not token:
-        print("خطا: ROOM_ID یا TOKEN تنظیم نشده‌اند!")
-        return
+    # این دستور جایگزینِ فراخوانیِ دستیِ main می‌شود و از سیستم داخلی خود هایرایز استفاده می‌کند
+    sys.argv = ["highrise", "main:MyBot", room_id, token]
+    highrise_main.main()
 
-    # اصلاح نهایی برای جلوگیری از ارورِ آرگومانِ گمشده
-    # ما از یک تابعِ پوششی استفاده می‌کنیم تا آرگومان‌های اضافه را نادیده بگیرد
-    def run_bot():
-        sys.argv = ["highrise", "main:MyBot", room_id, token]
-        highrise_main.main()
-    
-    run_bot()
-
-if __name__ == "__main__":
-    asyncio.run(main())
