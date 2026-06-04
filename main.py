@@ -1,13 +1,12 @@
 import os
-import asyncio
 from highrise import BaseBot, Highrise
+import asyncio
 
 class MyBot(BaseBot):
     async def on_start(self, session_metadata) -> None:
-        print("ربات با موفقیت در اتاق مستقر شد!")
+        print("ربات آنلاین شد!")
 
 async def main():
-    # Railway متغیرها را از بخش Variables می‌خواند
     room_id = os.environ.get("ROOM_ID")
     token = os.environ.get("TOKEN")
     
@@ -18,3 +17,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+    
