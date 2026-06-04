@@ -1,4 +1,4 @@
- import os
+import os
 import asyncio
 from highrise import BaseBot
 from highrise import __main__ as highrise_main
