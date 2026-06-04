@@ -12,15 +12,9 @@ if __name__ == "__main__":
     room_id = os.environ.get("ROOM_ID")
     token = os.environ.get("TOKEN")
     
-    # این دستور آرگومان‌های لازم را به صورت شبیه‌سازی شده به تابع اصلی می‌دهد
+    # تنظیم آرگومان‌ها
     sys.argv = ["highrise", "main:MyBot", room_id, token]
     
-    # برای دور زدن خطای آرگومان، از یک فراخوانیِ مستقیم استفاده می‌کنیم
-    try:
-        highrise_main.main()
-    except TypeError:
-        # اگر همچنان خطای آرگومان داد، این متد جایگزین را اجرا می‌کنیم
-        from highrise.models import SessionMetadata
-        highrise_main.main(definitions=None)
-        
-
+    # استفاده از دستور اصلی برای اجرای دائمی
+    # این دستور تا زمانی که ربات در اتاق است، برنامه را زنده نگه می‌دارد
+    highrise_main.main()
