@@ -1,7 +1,8 @@
 import os
 import threading
 from http.server import SimpleHTTPRequestHandler, HTTPServer
-from highrise import BaseBot
+from highrise import BaseBot, __main__
+from highrise.models import SessionMetadata, User, Position
 
 # ۱. سرور وب فیک برای روشن ماندن در رندر
 def run_fake_server():
@@ -12,12 +13,20 @@ def run_fake_server():
 
 threading.Thread(target=run_fake_server, daemon=True).start()
 
-# ۲. کلاس اصلی ربات و خوش‌آمداگویی
+# ۲. بخش اصلی ربات با متدهای استاندارد و ایمن
 class MyBot(BaseBot):
-    async def on_start(self, session_metadata) -> None:
+    async def on_start(self, session_metadata: SessionMetadata) -> None:
         print("ربات با موفقیت آنلاین شد و به اتاق وصل گردید!")
 
-    async def on_user_join(self, user, position) -> None:
-        welcome_message = f"سلام {user.username} عزیز! به اتاق ما خیلی خوش آمدی 🌟"
-        await self.highrise.chat(welcome_message)
-        
+    # متد کاملاً استاندارد برای تشخیص ورود بازیکنان
+    async def on_user_join(self, user: User, position: Position | None) -> None:
+        try:
+            welcome_message = f"سلام {user.username} عزیز! به اتاق ما خیلی خوش آمدی 🌟"
+            await self.highrise.chat(welcome_message)
+        except Exception as e:
+            print(f"Error in welcome: {e}")
+
+if __name__ == "__main__":
+    # اجرای خودکار با متد اصلی پکیج
+    __main__.main()
+    
